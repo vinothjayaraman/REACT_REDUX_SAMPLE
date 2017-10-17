@@ -12,7 +12,7 @@ class Layout extends React.Component{
     }
 }
 
-Layout.PropTypes = {
+Layout.propTypes = {
     children: PropTypes.object.isRequired
 };
 
