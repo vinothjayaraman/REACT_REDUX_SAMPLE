@@ -24,11 +24,11 @@ class CoursesPage extends React.Component{
         return(
             <div>
                 <h1>Courses</h1>
-                {/* <input type="submit" 
+                {<input type="submit" 
                        value="Add Course"
                        className="btn btn-primary"
-                       onClick={this.redirectToAddCoursePage} /> */}
-                <Link to={'/course'} className="btn btn-primary">Add Course</Link>
+                       onClick={this.redirectToAddCoursePage} />}
+                {/* <Link to="/course" className="btn btn-primary">Add Course</Link> */}
                 <CourseList courses={courses}/>
             </div>
         );
