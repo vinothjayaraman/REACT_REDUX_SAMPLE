@@ -4,8 +4,9 @@ import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseAction';
 import CourseForm from './CourseForm';
 import toastr from 'toastr';
+import {loadAuthorsToSelect} from '../../selectors/selectors';
 
-class ManageCoursePage extends React.Component{
+export class ManageCoursePage extends React.Component{
     constructor(props, context){
         super(props,context);
 
@@ -31,9 +32,23 @@ class ManageCoursePage extends React.Component{
         course[field] = event.target.value;
         return this.setState({course: course});
     }
+    courseFormIsValid(){
+        let isFormValid = true;
+        let errors = {};
 
+        if (this.state.course.title.length < 5) {
+            isFormValid = false;
+            errors.title = 'Title must be atleast 5 characters.';
+        }
+
+        this.setState({errors: errors});
+        return isFormValid;
+    }
     saveCourse(event){
         event.preventDefault();
+        if (!this.courseFormIsValid()) {
+            return;
+        }
         this.setState({saving: true});
         this.props.actions.saveCourse(this.state.course)
             .then(()=>this.redirect())
@@ -85,15 +100,10 @@ function mapStateToProps(state, ownProps) {
     if (courseId && state.courses.length > 0) {
         course = getCourseById(state.courses,courseId);
     }
-    const loadAuthorsToSelect = state.authors.map(author=>{
-        return{
-            value: author.id,
-            text: author.firstName + ' ' + author.lastName
-        };
-    });
+    
     return{
         course: course,
-        authors: loadAuthorsToSelect
+        authors: loadAuthorsToSelect(state.authors)
     };
 }
 
